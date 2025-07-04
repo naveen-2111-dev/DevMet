@@ -7,6 +7,9 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: my-app
 
     steps:
       - uses: actions/checkout@v3
@@ -16,14 +19,19 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       # - name: Test
-      #   run: npm test
+      #   run: pnpm test

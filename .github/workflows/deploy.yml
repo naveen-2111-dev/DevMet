@@ -22,11 +22,16 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Predeploy (lint, typecheck, build)
-        run: npm run predeploy
+        run: pnpm run predeploy
 
       - name: Trigger Vercel Deploy Hook
         run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
