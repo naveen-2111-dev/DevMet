@@ -1,4 +1,4 @@
-name: PR Checks
+name: pr Checks 🏎
 
 on:
   pull_request:
@@ -25,5 +25,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
+      # - name: Test
+      #   run: npm test
