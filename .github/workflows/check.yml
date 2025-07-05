@@ -51,4 +51,23 @@ jobs:
         
       - name: Deploy Project Artifacts
         working-directory: ./my-app
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "🚀 Deploying to Vercel..."
+          VERCEL_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "VERCEL_URL=$VERCEL_URL" >> $GITHUB_ENV
+          echo ""
+          echo "========================================="
+          echo "🎉 DEPLOYMENT SUCCESSFUL!"
+          echo "========================================="
+          echo "Preview URL: $VERCEL_URL"
+          echo "========================================="
+          echo ""
+          
+      - name: Add to GitHub Summary
+        run: |
+          echo "## 🚀 Preview Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Preview URL:** ${{ env.VERCEL_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "This preview will be updated automatically when you push new changes." >> $GITHUB_STEP_SUMMARY
