@@ -31,6 +31,24 @@ jobs:
       - name: Build
         working-directory: ./my-app
         run: npm run build
-      # - name: Test
-      #   working-directory: ./my-app
-      #   run: npm test
+
+  deploy-preview:
+    needs: [checks]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+        
+      - name: Pull Vercel Environment Information
+        working-directory: ./my-app
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        
+      - name: Build Project Artifacts
+        working-directory: ./my-app
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        
+      - name: Deploy Project Artifacts
+        working-directory: ./my-app
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
