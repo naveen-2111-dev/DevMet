@@ -3,6 +3,10 @@ name: checks
 on:
   pull_request:
     branches: [main]
+
+env:
+  NEXT_MONGO_DB_URL: ${{ secrets.NEXT_MONGO_DB_URL }}
+  NEXT_MAIL_SECRET: ${{ secrets.NEXT_MAIL_SECRET }}
     
 jobs:
   checks:
