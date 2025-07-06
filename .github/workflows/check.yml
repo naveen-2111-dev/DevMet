@@ -39,6 +39,8 @@ jobs:
   deploy-preview:
     needs: [checks]
     runs-on: ubuntu-latest
+    outputs:
+      vercel_url: ${{ steps.vercel_deploy.outputs.vercel_url }}
     steps:
       - uses: actions/checkout@v3
         
@@ -54,6 +56,7 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         
       - name: Deploy Project Artifacts
+        id: vercel_deploy
         working-directory: ./my-app
         run: |
           echo "🚀 Deploying to Vercel..."
@@ -86,5 +89,5 @@ jobs:
           curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
             -d '{
-              "content": "DevMet PR checks Failed by ~ **${{ github.actor }}**\n\n🔗 **CI Logs:** [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n **Preview URL:** `${{ needs.deploy-preview.outputs.vercel_url }}`"
+              "content": "DevMet PR checks Failed by ~ **${{ github.actor }}**\n\n🔗 **CI Logs:** [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n Preview: `${{ needs.deploy-preview.outputs.vercel_url || 'Not Available' }}`"
             }'
