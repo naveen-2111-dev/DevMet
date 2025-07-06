@@ -75,3 +75,16 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "This preview will be updated automatically when you push new changes." >> $GITHUB_STEP_SUMMARY
+
+  notify-discord-on-failure:
+    needs: [checks, deploy-preview]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Failure Notification
+        run: |
+          curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "DevMet PR checks Failed by ~ **${{ github.actor }}**\n\n🔗 **CI Logs:** [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n **Preview URL:** `${{ needs.deploy-preview.outputs.vercel_url }}`"
+            }'
