@@ -39,7 +39,7 @@ jobs:
           curl -X POST ${{ secrets.DISCORD_WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
             -d '{
-              "content": "**Deployment Successful**\n *${{ github.actor }}*\n*\n"
+              "content": "**Deployment Successful — DevMet is Live!** 🎉\n\n ~Deployed by: *${{ github.actor }}*\n\n✨ Latest changes are now reflected in production."
             }'
 
   Notify-Failure:
