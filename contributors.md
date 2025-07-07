@@ -3,3 +3,4 @@
 - Naveen Rajan M [Backend dev]
 - Janani B [ui,frontend]
 - Kowshika V [Frontend dev]
+- Saran Srini [Full stack]
