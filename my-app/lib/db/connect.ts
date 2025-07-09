@@ -13,8 +13,10 @@ if (!URI) {
 const client: MongoClient = new MongoClient(URI, options);
 const clientPromise: Promise<MongoClient> = client.connect()
     .then(() => {
+        /* eslint-disable no-console */
         console.log("Connected to MongoDB");
         return client;
+        /* eslint-enable no-console */
     })
     .catch((error) => {
         console.error("MongoDB connection error:", error);
